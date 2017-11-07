@@ -22,14 +22,14 @@ public class PurchaseService {
     @Autowired
     InterfaceProductRelateRepository interfaceProductRelateRepository;
 
-    public PurchaseResponse purchase(ProductDto dto) throws Exception{
+    public PurchaseResponse purchase(ProductDto dto){
         Map<String, Object> map = null;
         try {
             map = BeanFlattener.deepToMap(dto);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        InterfaceTypeInfo interfaceInfo = getInterfaceInfo((String) map.get("interfaceProductId"));
+        InterfaceTypeInfo interfaceInfo = getInterfaceInfo((String) map.get("products.interfaceProductId"));
         String beanName = interfaceInfo.getBeanName();
         OrderService service = (OrderService)applicationContext.getBean(interfaceInfo.getBeanName());
         service.handle(map);

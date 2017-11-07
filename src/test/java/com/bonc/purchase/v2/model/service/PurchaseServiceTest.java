@@ -1,6 +1,10 @@
 package com.bonc.purchase.v2.model.service;
 
 import com.bonc.purchase.v2.Application;
+import com.bonc.purchase.v2.model.dto.Operator;
+import com.bonc.purchase.v2.model.dto.Product;
+import com.bonc.purchase.v2.model.dto.ProductDto;
+import com.bonc.purchase.v2.model.dto.UserInfoDto;
 import com.bonc.purchase.v2.model.entity.InterfaceTypeInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +25,27 @@ public class PurchaseServiceTest {
     public void testGetInterfaceInfo(){
         InterfaceTypeInfo interfaceInfo = purchaseService.getInterfaceInfo("1");
         System.out.println(interfaceInfo);
+    }
+
+    @Test
+    public void testPurchase(){
+        ProductDto dto = new ProductDto();
+        UserInfoDto userInfoDto = new UserInfoDto();
+        userInfoDto.setPayMode("1");
+        userInfoDto.setMobile("139567890");
+
+        Operator operator = new Operator("123");
+
+        Product product = new Product();
+        product.setElementId("123");
+        product.setInterfaceProductId("1");
+
+        dto.setProducts(product);
+        dto.setUserInfoDto(userInfoDto);
+        dto.setOperator(operator);
+
+        purchaseService.purchase(dto);
+
     }
 
 }
