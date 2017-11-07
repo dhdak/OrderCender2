@@ -25,14 +25,14 @@ public class ProductDto implements Serializable {
     //操作人信息
     public Operator operator;
     //订购的产品
-    private Product products;
+    private Product product;
 
     public ProductDto() {
     }
 
-    public ProductDto(UserInfoDto userInfoDto, Operator operator, Product products) {
+    public ProductDto(UserInfoDto userInfoDto, Operator operator, Product product) {
         this.userInfoDto = userInfoDto;
         this.operator = operator;
-        this.products = products;
+        this.product = product;
     }
 }

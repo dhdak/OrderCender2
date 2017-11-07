@@ -29,10 +29,10 @@ public class PurchaseService {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        InterfaceTypeInfo interfaceInfo = getInterfaceInfo((String) map.get("products.interfaceProductId"));
+        InterfaceTypeInfo interfaceInfo = getInterfaceInfo((String) map.get("product.interfaceProductId"));
         String beanName = interfaceInfo.getBeanName();
         OrderService service = (OrderService)applicationContext.getBean(interfaceInfo.getBeanName());
-        service.handle(map);
+        service.handle(map,interfaceInfo.getId());
 
         return null;
     }

@@ -6,5 +6,5 @@ import com.bonc.purchase.v2.model.PurchaseResponse;
 import java.util.Map;
 
 public interface OrderService {
-    PurchaseResponse handle(Map productMap);
+    PurchaseResponse handle(Map productMap,String interfaecId);
 }

@@ -32,7 +32,8 @@ public class PurchaseServiceTest {
         ProductDto dto = new ProductDto();
         UserInfoDto userInfoDto = new UserInfoDto();
         userInfoDto.setPayMode("1");
-        userInfoDto.setMobile("139567890");
+        userInfoDto.setMobile("18503350583");
+        userInfoDto.setCityCode("10010");
 
         Operator operator = new Operator("123");
 
@@ -40,7 +41,7 @@ public class PurchaseServiceTest {
         product.setElementId("123");
         product.setInterfaceProductId("1");
 
-        dto.setProducts(product);
+        dto.setProduct(product);
         dto.setUserInfoDto(userInfoDto);
         dto.setOperator(operator);
 

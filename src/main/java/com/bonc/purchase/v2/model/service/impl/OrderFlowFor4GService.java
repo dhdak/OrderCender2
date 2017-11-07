@@ -3,10 +3,15 @@ package com.bonc.purchase.v2.model.service.impl;
 import com.bonc.purchase.v2.model.PurchaseResponse;
 import com.bonc.purchase.v2.model.dto.Product;
 import com.bonc.purchase.v2.model.dto.ProductDto;
+import com.bonc.purchase.v2.model.entity.InputParams;
+import com.bonc.purchase.v2.model.repository.InputParamsRepository;
 import com.bonc.purchase.v2.model.service.OrderService;
+import com.bonc.purchase.v2.model.service.paramsToolService.ParamsToolService;
 import com.bonc.purchase.v2.model.type.SystemCodeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -21,12 +26,43 @@ public class OrderFlowFor4GService implements OrderService{
 
     private static final Logger log = LoggerFactory.getLogger(OrderFlowFor4GService.class);
 
+    @Autowired
+    private InputParamsRepository inputParamsRepository;
+    @Autowired
+    private ApplicationContext applicationContext;
+
 
     @Override
-    public PurchaseResponse handle(Map productMap){
+    public PurchaseResponse handle(Map productMap,String interfaecId){
         System.out.println("aaa");
+        log.debug("productMap：{}", productMap);
+        Map busParams = getBusParams(productMap, interfaecId);
+        System.out.println(busParams);
+
 
         return null;
+    }
+
+    /**
+     * 根据oc_in_params生成业务参数的map
+     * @param productMap
+     * @param interfaceId
+     * @return
+     */
+    public Map getBusParams(Map productMap,String interfaceId){
+        List<InputParams> list = inputParamsRepository.findByInterfaceId(interfaceId);
+        Map busMap = new HashMap();
+        list.forEach(in->{
+            if(in.isExternal()){
+                ParamsToolService paramsService = (ParamsToolService)applicationContext.getBean(in.getServiceName());
+                String paramStr = paramsService.handle(productMap);
+                busMap.put(in.getName(),paramStr);
+            }else {
+                busMap.put(in.getName(),productMap.get(in.getProductParam()));
+            }
+
+        });
+        return busMap;
     }
 
 //    public PurchaseResponse orderFlowFor4G(ProductDto productDto, int time) {
